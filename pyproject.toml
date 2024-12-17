@@ -18,7 +18,7 @@ toml = []
 dev = []
 
 [pyproject.urls]
-Homepage = "https://github.com/avgra/fwparser"
-Documentation = "https://github.com/avgra/fwparser/blob/main/README.md"
+Homepage = "https://github.com/avgra3/fwparser"
+Documentation = "https://github.com/avgra3/fwparser/blob/main/README.md"
 Repository = "https://github.com/avgra3/fwparser"
 "Bug Tracker" = "https://github.com/avgra3/fwparser/issues"
