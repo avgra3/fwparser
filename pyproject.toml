@@ -1,0 +1,24 @@
+[project]
+name = "fwParser"
+description = "A simple parser for fixed width files!"
+keywords = ["text", "fixed width"]
+readme = "README.md"
+license = {file = "LICENSE"}
+version = "0.1.1"
+requires-python = ">=3.8"
+authors = [
+	{name = "Antony G."}
+]
+maintainers = [
+	{name = "Antony G."}
+]
+
+[pyproject.optional-dependencies]
+toml = []
+dev = []
+
+[pyproject.urls]
+Homepage = ""
+Documentation = ""
+Repository = ""
+"Bug Tracker" = ""

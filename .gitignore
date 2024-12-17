@@ -1,0 +1,14 @@
+# pycache
+__pycache__/
+*.pyc
+
+# Build
+*.egg-info
+
+# virtual envs
+venv/
+.venv/
+
+# Practice data
+PARSED/
+parser.py/
