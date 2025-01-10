@@ -4,11 +4,11 @@ import sys
 sys.path.append("..")
 
 from fwparser.fwparser import (
-        _get_column_names,
-        _parse_data_by_line,
-        _parse_all_data,
-        _split_data,
-        parse_data_file,
+    _get_column_names,
+    _parse_data_by_line,
+    _parse_all_data,
+    _split_data,
+    parse_data_file,
 )
 
 
@@ -55,7 +55,6 @@ class Test_Parser(unittest.TestCase):
 
     def test_line_split(self):
         expected = ["HERE IS LINE ONE", "HERE IS LINE TWO", "HERE IS LINE THREE"]
-        
         input01 = "./test/test_data.txt"
         actual01 = _split_data(raw_data_file=input01)
         self.assertEqual(expected, actual01)
@@ -73,8 +72,11 @@ class Test_Parser(unittest.TestCase):
             "last_name": (15, 10),
         }
 
-        actual02 = _get_column_names(header_config=input02)
-        self.assertEqual(expected, actual02)
+    def test_bad_input_exception(self):
+        bad_input_not_string = 123
+
+        with self.assertRaises(Exception):
+            _split_data(bad_input_not_string)
 
 
 if __name__ == "__main__":

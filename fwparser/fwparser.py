@@ -1,4 +1,5 @@
 from .errors import IndexOutOfBoundsError
+import os
 
 
 def _get_column_names(header_config: dict[str, tuple]) -> list[str]:
@@ -16,7 +17,7 @@ def _parse_data_by_line(
     header_config: dict[str, tuple],
     raw_data_line: str,
     trim_whitespace: bool = False,
-    offset: int = 0
+    offset: int = 0,
 ) -> dict[str, str]:
     parsed_field = {}
     for value in header_config.items():
@@ -34,11 +35,11 @@ def _parse_data_by_line(
 
 
 def _parse_all_data(
-        all_data: list[str],
-        header_config: dict[str, tuple],
-        trim_whitespace: bool = False,
-        offset: int = 0,
-        ) -> list[dict[str, str]]:
+    all_data: list[str],
+    header_config: dict[str, tuple],
+    trim_whitespace: bool = False,
+    offset: int = 0,
+) -> list[dict[str, str]]:
     result = []
     for line in all_data:
         row_data = _parse_data_by_line(
@@ -52,17 +53,26 @@ def _parse_all_data(
 
 
 def _split_data(raw_data_file: str) -> list[str]:
-    with open(raw_data_file, "r") as file:
-        data = file.read().splitlines()
-    return data
+    if os.path.isfile(raw_data_file):
+        with open(raw_data_file, "r") as file:
+            data = file.read().splitlines()
+        return data
+    if os.path.isdir(raw_data_file):
+        raise Exception(f'The filepath, "{raw_data_file}", you put is a directory...')
+    if isinstance(raw_data_file, str):
+        data = raw_data_file.splitlines()
+        return data
+    raise Exception(
+        f"The raw data path you included is not a file path or of type string:\n{raw_data_file}"
+    )
 
 
 def parse_data_file(
-        raw_data_file: str,
-        header_config: dict[str, tuple],
-        trim_whitespace: bool = False,
-        offset: int = 0,
-        ) -> str:
+    raw_data_file: str,
+    header_config: dict[str, tuple],
+    trim_whitespace: bool = False,
+    offset: int = 0,
+) -> str:
     header = _get_column_names(header_config=header_config)
     raw_data_list = _split_data(raw_data_file=raw_data_file)
     data_list = _parse_all_data(
@@ -79,7 +89,7 @@ def parse_data_file(
     for line in data_list:
         data = ""
         for column in header:
-            data += (line[column] + ",")
+            data += line[column] + ","
         result += data.rstrip(",") + "\r\n"
 
     return result
