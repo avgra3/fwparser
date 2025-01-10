@@ -15,7 +15,8 @@ maintainers = [
 
 [pyproject.optional-dependencies]
 toml = ["tomli"]
-dev = ["pandas"]
+pandas = ["pandas", "polars"]
+dev = ["pandas", "polars", "tomli"]
 
 [pyproject.urls]
 Homepage = "https://github.com/avgra3/fwparser"
