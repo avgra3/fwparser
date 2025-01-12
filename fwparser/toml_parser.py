@@ -1,4 +1,13 @@
-import tomli
+try:
+    import tomli
+except ImportError as e:
+    print(
+        """Tomli does not appear to be installed which is required to parse using a toml file.
+        Either resintall using one of the optional paramerters => [toml], [pandas], or [polars],
+        or directly install polars."""
+    )
+    print(e)
+
 import os
 from fwparser.fwparser import parse_data_file
 

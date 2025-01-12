@@ -15,7 +15,8 @@ maintainers = [
 
 [pyproject.optional-dependencies]
 toml = ["tomli"]
-pandas = ["pandas", "polars"]
+pandas = ["pandas", "tomli"]
+polars = ["polars", "tomli"]
 dev = ["pandas", "polars", "tomli"]
 
 [pyproject.urls]
