@@ -63,16 +63,16 @@ You can optionally install the package to have [Toml](https://toml.io/en/), [Pan
 
 ```bash
 # With Toml support
-pip install --upgrade "git+https://github.com/avgra3/fwparser.git[toml]"
+pip install --upgrade "fwparser[toml] @ git+https://github.com/avgra3/fwparser.git"
 
 # With Pandas support -- includes toml support
-pip install --upgrade "git+https://github.com/avgra3/fwparser.git[pandas]"
+pip install --upgrade "fwparser[pandas] @ git+https://github.com/avgra3/fwparser.git"
 
 # With Polars support -- includes toml support
-pip install --upgrade "git+https://github.com/avgra3/fwparser.git[polars]"
+pip install --upgrade "fwparser[polars] @ git+https://github.com/avgra3/fwparser.git"
 
 # With Polars, Pandas, and Toml support
-pip install --upgrade "git+https://github.com/avgra3/fwparser.git[all]"
+pip install --upgrade "fwparser[all] @ git+https://github.com/avgra3/fwparser.git"
 ```
 
 ## Why
