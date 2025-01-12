@@ -57,6 +57,24 @@ customer_id,first_name,last_name,address,phone_number
 
 With the above, you can then either save the data to a file or use another package like [pandas](https://pandas.pydata.org/) or [polars](https://pola.rs/) to work more with the data.
 
+### Optional Dependencies
+
+You can optionally install the package to have [Toml](https://toml.io/en/), [Pandas](https://duckduckgo.com/?t=ffab&q=python+pandas), or [Polars](https://pola.rs/) support.
+
+```bash
+# With Toml support
+pip install --upgrade "git+https://github.com/avgra3/fwparser.git[toml]"
+
+# With Pandas support -- includes toml support
+pip install --upgrade "git+https://github.com/avgra3/fwparser.git[pandas]"
+
+# With Polars support -- includes toml support
+pip install --upgrade "git+https://github.com/avgra3/fwparser.git[polars]"
+
+# With Polars, Pandas, and Toml support
+pip install --upgrade "git+https://github.com/avgra3/fwparser.git[all]"
+```
+
 ## Why
 
 You might be wondering why this package exists. Simply, I found that the pandas and polars implementations for parsing file types like these were clunky and not the main focus of those projects.

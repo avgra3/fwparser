@@ -13,10 +13,11 @@ maintainers = [
 	{name = "Antony G."}
 ]
 
-[pyproject.optional-dependencies]
+[project.optional-dependencies]
 toml = ["tomli"]
 pandas = ["pandas", "tomli"]
 polars = ["polars", "tomli"]
+all = ["polars", "pandas", "tomli"]
 dev = ["pandas", "polars", "tomli"]
 
 [pyproject.urls]
