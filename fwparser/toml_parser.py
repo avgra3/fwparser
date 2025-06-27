@@ -44,6 +44,7 @@ def toml_parse_data_file(
     toml_file_path: str,
     trim_whitespace: bool = False,
     offset: int = 0,
+    enclosed_by: str = ""
 ) -> str:
     toml_file = _turn_lists_to_tuples(
         _get_definitions(config_dict=_get_configuration(config_file=toml_file_path))
@@ -53,4 +54,5 @@ def toml_parse_data_file(
         header_config=toml_file,
         trim_whitespace=trim_whitespace,
         offset=offset,
+        enclosed_by=enclosed_by,
     )
