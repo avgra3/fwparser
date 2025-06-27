@@ -18,6 +18,7 @@ def parse_to_pandas(
     trim_white_space: bool = True,
     offset: int = 0,
     using_toml: bool = False,
+    enclosed_by: str = ""
 ):
     if using_toml:
         parsed_data = toml_parse_data_file(
@@ -25,6 +26,7 @@ def parse_to_pandas(
             toml_file_path=header_config,
             trim_whitespace=trim_white_space,
             offset=offset,
+            enclosed_by=enclosed_by,
         )
     else:
         parsed_data = parse_data_file(
@@ -32,6 +34,7 @@ def parse_to_pandas(
             header_config=header_config,
             trim_whitespace=trim_white_space,
             offset=offset,
+            enclosed_by=enclosed_by,
         )
 
-    return pd.read_csv(StringIO(parsed_data), header=0, sep=",")
+    return pd.read_csv(StringIO(parsed_data), header=0, sep=",", quotechar=enclosed_by)

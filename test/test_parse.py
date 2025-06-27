@@ -78,6 +78,15 @@ class Test_Parser(unittest.TestCase):
         with self.assertRaises(Exception):
             _split_data(bad_input_not_string)
 
+    def test_raw_has_enclosed(self):
+        firstName = "Henry"
+        lastName = "Conrad, MD"
+        raw = f"Henry               Conrad, MD          "
+        config = {"first_name": (0, 20), "last_name": (20, 20)}
+        expected = '"first_name","last_name"\r\n"Henry","Conrad, MD"\r\n'
+        actual = parse_data_file(raw_data_file=raw, header_config=config, trim_whitespace=True, offset=0, enclosed_by='"')
+        self.assertEqual(actual, expected)
+
 
 if __name__ == "__main__":
     unittest.main()

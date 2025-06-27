@@ -22,10 +22,10 @@ def _parse_data_by_line(
     parsed_field = {}
     for value in header_config.items():
         header = value[0]
-        value_start = value[1][0] - offset
+        value_start = int(value[1][0]) - offset
         if value_start < 0:
             raise IndexOutOfBoundsError(field_name=header)
-        value_end = value_start + value[1][1]
+        value_end = value_start + int(value[1][1])
         data = raw_data_line[value_start:value_end]
         if trim_whitespace:
             parsed_field[header] = data.strip()
@@ -72,6 +72,7 @@ def parse_data_file(
     header_config: dict[str, tuple],
     trim_whitespace: bool = False,
     offset: int = 0,
+    enclosed_by: str = ""
 ) -> str:
     header = _get_column_names(header_config=header_config)
     raw_data_list = _split_data(raw_data_file=raw_data_file)
@@ -83,13 +84,13 @@ def parse_data_file(
     )
     result = ""
     for name in header:
-        result += f"{name},"
+        result += f"{enclosed_by}{name}{enclosed_by},"
     result = result.rstrip(",") + "\r\n"
 
     for line in data_list:
         data = ""
         for column in header:
-            data += line[column] + ","
+            data += enclosed_by + line[column] + enclosed_by + ","
         result += data.rstrip(",") + "\r\n"
 
     return result

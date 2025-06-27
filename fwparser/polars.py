@@ -20,6 +20,7 @@ def parse_to_polars(
     trim_white_space: bool = True,
     offset: int = 0,
     using_toml: bool = False,
+    enclosed_by: str = "",
 ):
     if using_toml:
         parsed_data = toml_parse_data_file(
@@ -27,6 +28,7 @@ def parse_to_polars(
             toml_file_path=header_config,
             trim_whitespace=trim_white_space,
             offset=offset,
+            enclosed_by=enclosed_by,
         )
     else:
         parsed_data = parse_data_file(
@@ -34,8 +36,9 @@ def parse_to_polars(
             header_config=header_config,
             trim_whitespace=trim_white_space,
             offset=offset,
+            enclosed_by=enclosed_by,
         )
 
     return pl.read_csv(
-        StringIO(parsed_data), has_header=True, separator=",", infer_schema=False
+        StringIO(parsed_data), has_header=True, separator=",", infer_schema=False, quote_char=enclosed_by
     )
