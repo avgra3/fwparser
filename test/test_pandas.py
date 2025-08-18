@@ -1,9 +1,7 @@
 import unittest
-import sys
 from io import StringIO
 import pandas as pd
 
-sys.path.append("..")
 
 from fwparser.fwparser import (
     _get_column_names,
@@ -47,7 +45,7 @@ class Test_Parser_and_Pandas(unittest.TestCase):
         result = df_test.equals(actual_df)
 
         self.assertEqual(result, True)
-    
+
     def test_parse_data_enclosed_by(self):
         raw = f"Henry               Conrad, MD          "
         data = {
@@ -56,7 +54,12 @@ class Test_Parser_and_Pandas(unittest.TestCase):
         }
         config = {"first_name": (0, 20), "last_name": (20, 20)}
         df_test = pd.DataFrame(data)
-        actual_df = parse_to_pandas(raw_data_file=raw, header_config=config, trim_white_space=True, enclosed_by="'")
+        actual_df = parse_to_pandas(
+            raw_data_file=raw,
+            header_config=config,
+            trim_white_space=True,
+            enclosed_by="'",
+        )
         result = df_test.equals(actual_df)
         self.assertEqual(result, True)
 

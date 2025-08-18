@@ -13,8 +13,10 @@ maintainers = [
 	{name = "Antony G."}
 ]
 dependencies = [
+    "faker>=37.5.3",
     "pandas>=2.3.0",
     "polars>=1.31.0",
+    "pytest>=8.4.1",
     "tomli>=2.2.1",
 ]
 
@@ -23,10 +25,21 @@ toml = ["tomli"]
 pandas = ["pandas", "tomli"]
 polars = ["polars", "tomli"]
 all = ["polars", "pandas", "tomli"]
-dev = ["pandas", "polars", "tomli"]
+test = ["pandas", "polars", "tomli", "pytest", "Faker"]
+
 
 [pyproject.urls]
 Homepage = "https://github.com/avgra3/fwparser"
 Documentation = "https://github.com/avgra3/fwparser/blob/main/README.md"
 Repository = "https://github.com/avgra3/fwparser"
 "Bug Tracker" = "https://github.com/avgra3/fwparser/issues"
+
+[tools.pytest.ini_options]
+addopts = [
+	"--import-mode=importlib",
+	"--strict-markers",
+]
+pythonpath = "fwparser"
+testpaths = [
+	"test",
+]

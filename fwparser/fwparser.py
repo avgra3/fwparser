@@ -72,7 +72,7 @@ def parse_data_file(
     header_config: dict[str, tuple],
     trim_whitespace: bool = False,
     offset: int = 0,
-    enclosed_by: str = ""
+    enclosed_by: str = "",
 ) -> str:
     header = _get_column_names(header_config=header_config)
     raw_data_list = _split_data(raw_data_file=raw_data_file)
@@ -93,4 +93,4 @@ def parse_data_file(
             data += enclosed_by + line[column] + enclosed_by + ","
         result += data.rstrip(",") + "\r\n"
 
-    return result
+    return result.rstrip("\r\n")

@@ -1,10 +1,8 @@
 import polars as pl
 
 import unittest
-import sys
 from io import StringIO
 
-sys.path.append("..")
 
 from fwparser.fwparser import (
     _get_column_names,
@@ -61,9 +59,17 @@ class Test_Parser_and_Polars(unittest.TestCase):
         raw_data = "12345J,hn      Doe       123 Main St         1234567890"
 
         df_test = pl.from_dict(data)
-        df_actual = parse_to_polars(raw_data_file=raw_data, header_config=DATA_OUTLINE, trim_white_space=True, offset=0, using_toml=False, enclosed_by="'")
+        df_actual = parse_to_polars(
+            raw_data_file=raw_data,
+            header_config=DATA_OUTLINE,
+            trim_white_space=True,
+            offset=0,
+            using_toml=False,
+            enclosed_by="'",
+        )
         result = df_test.equals(df_actual)
         self.assertEqual(result, True)
+
 
 if __name__ == "__main__":
     unittest.main()

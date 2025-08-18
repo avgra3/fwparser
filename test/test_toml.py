@@ -1,7 +1,5 @@
 import unittest
-import sys
 
-sys.path.append("..")
 
 from fwparser.fwparser import (
     _get_column_names,
@@ -25,7 +23,7 @@ RAW_DATA = "12345John      Doe       123 Main St         1234567890"
 class Test_Parser_with_Toml(unittest.TestCase):
     def test_toml_parse_data_file(self):
         config_path = "test/test_toml.toml"
-        expected = "customer_id,first_name,last_name,address,phone_number\r\n12345,John,Doe,123 Main St,1234567890\r\n"
+        expected = "customer_id,first_name,last_name,address,phone_number\r\n12345,John,Doe,123 Main St,1234567890"
         actual = toml_parse_data_file(
             raw_data_file=RAW_DATA,
             toml_file_path=config_path,

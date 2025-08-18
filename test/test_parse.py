@@ -1,7 +1,4 @@
 import unittest
-import sys
-
-sys.path.append("..")
 
 from fwparser.fwparser import (
     _get_column_names,
@@ -83,8 +80,14 @@ class Test_Parser(unittest.TestCase):
         lastName = "Conrad, MD"
         raw = f"Henry               Conrad, MD          "
         config = {"first_name": (0, 20), "last_name": (20, 20)}
-        expected = '"first_name","last_name"\r\n"Henry","Conrad, MD"\r\n'
-        actual = parse_data_file(raw_data_file=raw, header_config=config, trim_whitespace=True, offset=0, enclosed_by='"')
+        expected = '"first_name","last_name"\r\n"Henry","Conrad, MD"'
+        actual = parse_data_file(
+            raw_data_file=raw,
+            header_config=config,
+            trim_whitespace=True,
+            offset=0,
+            enclosed_by='"',
+        )
         self.assertEqual(actual, expected)
 
 
