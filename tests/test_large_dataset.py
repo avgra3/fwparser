@@ -1,3 +1,5 @@
+"""Testing with large datasets for fwparser."""
+
 from .create_fixedwidth_data import FixedWidthDataCreation
 from fwparser.fwparser import parse_data_file
 
@@ -9,10 +11,14 @@ DEFINITIONS = {
     "phone_number": [75, 10],
 }
 
-DATA = FixedWidthDataCreation(definitions=DEFINITIONS, generated_rows=1_000_000_000)
+DATA = FixedWidthDataCreation(
+    definitions=DEFINITIONS,
+    generated_rows=1_000_000_000,
+)
 
 
 def test_parse_data():
+    """Testing parsing of large dataset."""
     data = DATA._fixed_width_and_delimited_line()
     fixed_width = data["fixed_width"]
     parsed_data = parse_data_file(

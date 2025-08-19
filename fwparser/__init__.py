@@ -1,28 +1,26 @@
-from __future__ import annotations
-from .fwparser import parse_data_file
-
-IMPORTED = ("parse_data_file",)
-
+__all__ = [
+    "fwparser.fwparser.parse_data_file",
+    "fwparser.errors.NoLineTerminatorError",
+]
 try:
-    from .toml_parser import toml_parse_data_file
+    import tomli
 
-    IMPORTED += ("toml_parse_data_file",)
-except ImportError as e:
+    del tomli
+    __all__.append("fwparser.toml_parser.toml_parse_data_file")
+except ImportError:
     pass
-
 try:
-    from .pandas import parse_to_pandas
+    import pandas
 
-    IMPORTED += ("parse_to_pandas",)
-except ImportError as e:
+    del pandas
+
+    __all__.append("fwparser.pandas.parse_to_pandas")
+except ImportError:
     pass
-
 try:
-    from .polars import parse_to_polars
+    import polars
 
-    IMPORTED += ("parse_to_polars",)
-except ImportError as e:
+    del polars
+    __all__.append("fwparser.polars.parse_to_polars")
+except ImportError:
     pass
-
-# __all__ = ("parse_data_file",)
-__all__ = IMPORTED

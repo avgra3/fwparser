@@ -1,8 +1,11 @@
+"""Utility to parse and convert to Polars dataframe."""
+
 try:
     import polars as pl
 except ImportError as e:
     print(
-        """Polars does not appear to be installed which is required to output to a pandas dataframe.
+        """Polars does not appear to be installed which is required to output
+        to a polars dataframe.
     Either resintall using one of the optional paramerters => [polars]
     or install polars directly"""
     )
@@ -22,6 +25,7 @@ def parse_to_polars(
     using_toml: bool = False,
     enclosed_by: str = "",
 ):
+    """Parse raw data to Polars dataframe."""
     if using_toml:
         parsed_data = toml_parse_data_file(
             raw_data_file=raw_data_file,
@@ -40,5 +44,9 @@ def parse_to_polars(
         )
 
     return pl.read_csv(
-        StringIO(parsed_data), has_header=True, separator=",", infer_schema=False, quote_char=enclosed_by
+        StringIO(parsed_data),
+        has_header=True,
+        separator=",",
+        infer_schema=False,
+        quote_char=enclosed_by,
     )

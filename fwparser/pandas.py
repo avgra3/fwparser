@@ -1,8 +1,11 @@
+"""Convert parsed raw data to a Pandas dataframe."""
+
 try:
     import pandas as pd
 except ImportError as e:
     print(
-        "Pandas does not appear to be installed which is required to output to a pandas dataframe."
+        """Pandas does not appear to be installed which is required to output to
+    a pandas dataframe."""
     )
     print("Either resintall using one of the optional paramerters => [pandas]")
     print(e)
@@ -18,8 +21,9 @@ def parse_to_pandas(
     trim_white_space: bool = True,
     offset: int = 0,
     using_toml: bool = False,
-    enclosed_by: str = ""
+    enclosed_by: str = "",
 ):
+    """Parse raw data to a Pandas dataframe."""
     if using_toml:
         parsed_data = toml_parse_data_file(
             raw_data_file=raw_data_file,
@@ -37,4 +41,9 @@ def parse_to_pandas(
             enclosed_by=enclosed_by,
         )
 
-    return pd.read_csv(StringIO(parsed_data), header=0, sep=",", quotechar=enclosed_by)
+    return pd.read_csv(
+        StringIO(parsed_data),
+        header=0,
+        sep=",",
+        quotechar=enclosed_by,
+    )

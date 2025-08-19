@@ -1,3 +1,8 @@
+"""Errors associated with fwparser."""
+
+# ruff: noqa: D100, D101, E501
+
+
 class NoLineTerminatorError(Exception):
     def __init__(self, message, error_code=None):
         super().__init__(message)
@@ -9,6 +14,7 @@ class NoLineTerminatorError(Exception):
             return f"{base_message}\n{self.args[0]} (Error code: {self.error_code})"
         return f"{base_message}\n{self.args[0]}"
 
+
 class IndexOutOfBoundsError(Exception):
     def __init__(self, field_name, message, error_code=None):
         super().__init__(message)
@@ -16,5 +22,5 @@ class IndexOutOfBoundsError(Exception):
         self.field_name = field_name
 
     def __str__(self):
-        base_message = f"Start index of field name \"{self.field_name}\" is less than zero. Confirm your offset value and your configuration."
+        base_message = f'Start index of field name "{self.field_name}" is less than zero. Confirm your offset value and your configuration.'
         return f"{base_message}\n{self.args[0]}"

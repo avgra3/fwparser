@@ -1,31 +1,20 @@
-import polars as pl
+"""All tests with Polars using fwparser."""
 
+import polars as pl
+from .constants import RAW_DATA, DATA_OUTLINE
 import unittest
 from io import StringIO
-
-
 from fwparser.fwparser import (
-    _get_column_names,
-    _parse_data_by_line,
-    _parse_all_data,
-    _split_data,
     parse_data_file,
 )
 from fwparser.polars import parse_to_polars
 
 
-RAW_DATA = "12345John      Doe       123 Main St         1234567890"
-DATA_OUTLINE = {
-    "customer_id": (0, 5),
-    "first_name": (5, 10),
-    "last_name": (15, 10),
-    "address": (25, 20),
-    "phone_number": (45, 10),
-}
-
-
 class Test_Parser_and_Polars(unittest.TestCase):
+    """Test parser functions as expected with Polars."""
+
     def test_parse_data_with_extra_spaces(self):
+        """Test parsing with extra spaces."""
         data = {
             "customer_id": ["12345"],
             "first_name": ["John"],
@@ -42,13 +31,17 @@ class Test_Parser_and_Polars(unittest.TestCase):
             offset=0,
         )
         actual_df = pl.read_csv(
-            StringIO(actual), has_header=True, separator=",", infer_schema=False
+            StringIO(actual),
+            has_header=True,
+            separator=",",
+            infer_schema=False,
         )
         result = df_test.equals(actual_df)
 
         self.assertEqual(result, True)
 
     def test_enclosed_by(self):
+        """Test enclosed by with Polars."""
         data = {
             "customer_id": ["12345"],
             "first_name": ["J,hn"],

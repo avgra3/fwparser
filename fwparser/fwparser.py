@@ -1,3 +1,5 @@
+"""fwparser tools for converting fixed witdth files to delimited."""
+
 from .errors import IndexOutOfBoundsError
 import os
 
@@ -54,17 +56,19 @@ def _parse_all_data(
 
 def _split_data(raw_data_file: str) -> list[str]:
     if os.path.isfile(raw_data_file):
-        with open(raw_data_file, "r") as file:
+        with open(raw_data_file) as file:
             data = file.read().splitlines()
         return data
     if os.path.isdir(raw_data_file):
-        raise Exception(f'The filepath, "{raw_data_file}", you put is a directory...')
+        message = f'The filepath, "{raw_data_file}", you put is a directory...'
+        raise Exception(message)
     if isinstance(raw_data_file, str):
         data = raw_data_file.splitlines()
         return data
-    raise Exception(
-        f"The raw data path you included is not a file path or of type string:\n{raw_data_file}"
-    )
+    message = f"""The raw data path you included is not a file path or of type string:
+    {raw_data_file}
+    """
+    raise Exception(message)
 
 
 def parse_data_file(
@@ -74,6 +78,7 @@ def parse_data_file(
     offset: int = 0,
     enclosed_by: str = "",
 ) -> str:
+    """Parse data file given inputs."""
     header = _get_column_names(header_config=header_config)
     raw_data_list = _split_data(raw_data_file=raw_data_file)
     data_list = _parse_all_data(

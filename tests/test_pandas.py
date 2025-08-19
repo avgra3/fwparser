@@ -1,30 +1,21 @@
+"""All tests with Pandas and fwparser."""
+
 import unittest
 from io import StringIO
 import pandas as pd
-
+from .constants import RAW_DATA, DATA_OUTLINE
 
 from fwparser.fwparser import (
-    _get_column_names,
-    _parse_data_by_line,
-    _parse_all_data,
-    _split_data,
     parse_data_file,
 )
 from fwparser.pandas import parse_to_pandas
 
 
-RAW_DATA = "12345John      Doe       123 Main St         1234567890"
-DATA_OUTLINE = {
-    "customer_id": (0, 5),
-    "first_name": (5, 10),
-    "last_name": (15, 10),
-    "address": (25, 20),
-    "phone_number": (45, 10),
-}
-
-
 class Test_Parser_and_Pandas(unittest.TestCase):
+    """Test to confirm parser works with Pandas as expected."""
+
     def test_parse_data_with_extra_spaces(self):
+        """Test parse data with extra spaces."""
         data = {
             "customer_id": ["12345"],
             "first_name": ["John"],
@@ -41,13 +32,19 @@ class Test_Parser_and_Pandas(unittest.TestCase):
             offset=0,
             enclosed_by="",
         )
-        actual_df = pd.read_csv(StringIO(actual), header=0, dtype="str", sep=",")
+        actual_df = pd.read_csv(
+            StringIO(actual),
+            header=0,
+            dtype="str",
+            sep=",",
+        )
         result = df_test.equals(actual_df)
 
         self.assertEqual(result, True)
 
     def test_parse_data_enclosed_by(self):
-        raw = f"Henry               Conrad, MD          "
+        """Test parsing of enclosed data."""
+        raw = "Henry               Conrad, MD          "
         data = {
             "first_name": ["Henry"],
             "last_name": ["Conrad, MD"],

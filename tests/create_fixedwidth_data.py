@@ -1,12 +1,23 @@
+"""Creating arbitrarily large fixed width datasets."""
+
 from faker import Faker
 
 Faker.seed(100)
 
 
 class FixedWidthDataCreation:
+    """Class to create fixed width data."""
+
     def __init__(
         self, definitions: dict[str, list[int, int]], generated_rows: int = 10
     ) -> None:
+        """definitions: dict[str, list[int, int]]: Column definitions with the
+        field name (key) and a list with the starting character number and the
+        length of the field.
+
+        generated_rows: int: Number of rows you would like to generate.
+        Defaults to 10.
+        """
         self.customer_id = definitions["customer_id"]
         self.first_name = definitions["first_name"]
         self.last_name = definitions["last_name"]
@@ -16,9 +27,10 @@ class FixedWidthDataCreation:
         self.fake = Faker()
 
     def _customer_id(self) -> str:
-        return f"{self.fake.random_number(digits=self.customer_id[1], fix_len=True)}".rjust(
-            self.customer_id[1]
+        customer_id = (
+            f"{self.fake.random_number(digits=self.customer_id[1], fix_len=True)}"
         )
+        return customer_id.rjust(self.customer_id[1])
 
     def _first_name(self) -> str:
         return self.fake.first_name().rjust(self.first_name[1], " ")
@@ -32,9 +44,10 @@ class FixedWidthDataCreation:
         )
 
     def _phone_number(self) -> str:
-        return f"{self.fake.random_number(digits=self.phone_number[1], fix_len=True)}".rjust(
-            self.phone_number[1], " "
+        phone_number = (
+            f"{self.fake.random_number(digits=self.phone_number[1], fix_len=True)}"
         )
+        return phone_number.rjust(self.phone_number[1], " ")
 
     def _fixed_width_and_delimited_line(self, delimiter=",") -> dict[str, str]:
         customer_id = self._customer_id()
@@ -60,10 +73,17 @@ class FixedWidthDataCreation:
         }
 
     def generate_data_file(self, delimiter: str = ",") -> dict[str, str]:
+        r"""Generates similated data.
+
+        delimiter: str = \",\".
+        """
         delimited = ""
         fixed_width = ""
         for row in range(self.rows):
             data = self._fixed_width_and_delimited_line(delimiter=delimiter)
             delimited += data["fixed_width"] + "\r\n"
             fixed_width += data["delimited"] + "\r\n"
-        return {"fixed_width": fixed_width, "delimited": delimited}
+        return {
+            "fixed_width": fixed_width,
+            "delimited": delimited,
+        }

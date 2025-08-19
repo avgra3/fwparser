@@ -1,10 +1,16 @@
+"""Toml parser tools."""
+
 try:
     import tomli
 except ImportError as e:
     print(
-        """Tomli does not appear to be installed which is required to parse using a toml file.
-        Either resintall using one of the optional paramerters => [toml], [pandas], or [polars],
-        or directly install polars."""
+        """Tomli does not appear to be installed which is required to parse
+        using a toml file.
+        Either resintall using one of the optional paramerters:
+        - [toml]
+        - [pandas]
+        - [polars],
+        or directly install tomli."""
     )
     print(e)
 
@@ -21,7 +27,7 @@ def _get_configuration(config_file: str) -> dict:
             config_dict = tomli.load(toml_config)
         return config_dict
     raise Exception(
-        f'The configuration file: {config_file} is not a file or does not have the "toml" extension'
+        f'The configuration file: {config_file} is not a file or does not have the "toml" extension'  # noqa: E501
     )
 
 
@@ -44,8 +50,9 @@ def toml_parse_data_file(
     toml_file_path: str,
     trim_whitespace: bool = False,
     offset: int = 0,
-    enclosed_by: str = ""
+    enclosed_by: str = "",
 ) -> str:
+    """Parse raw data using a toml file."""
     toml_file = _turn_lists_to_tuples(
         _get_definitions(config_dict=_get_configuration(config_file=toml_file_path))
     )
