@@ -1,7 +1,7 @@
 """All fwparser base tests."""
 
 import unittest
-from .constants import RAW_DATA, DATA_OUTLINE
+from testing.constants import RAW_DATA, DATA_OUTLINE
 from fwparser.fwparser import (
     _get_column_names,
     _parse_data_by_line,
@@ -52,7 +52,7 @@ class Test_Parser(unittest.TestCase):
             "HERE IS LINE TWO",
             "HERE IS LINE THREE",
         ]
-        input01 = "./tests/test_data.txt"
+        input01 = "./testing/tests/test_data.txt"
         actual01 = _split_data(raw_data_file=input01)
         self.assertEqual(expected, actual01)
 

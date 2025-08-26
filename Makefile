@@ -8,4 +8,6 @@ test: lint
 test_large_data: lint
 	@scripts/tests_large_data.sh
 test_speedy: lint
-	uv run pytest tests/test_speedy.py
+	@scripts/test_speedy.sh	
+benchmark: lint
+	@scripts/benchmark.sh	

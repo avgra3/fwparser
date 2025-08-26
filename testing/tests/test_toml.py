@@ -1,7 +1,7 @@
 """All tests for Parsing Toml files with fwparser."""
 
 import unittest
-from .constants import VALID_TEST_TOML, INVALID_TEST_TOMLS, RAW_DATA
+from testing.constants import VALID_TEST_TOML, INVALID_TEST_TOMLS, RAW_DATA
 
 from fwparser.toml_parser import (
     _get_configuration,
@@ -16,7 +16,7 @@ class Test_Parser_with_Toml(unittest.TestCase):
 
     def test_toml_parse_data_file(self):
         """Tests toml parsing."""
-        config_path = "tests/test_toml.toml"
+        config_path = "./testing/tests/test_toml.toml"
         expected = "customer_id,first_name,last_name,address,phone_number\r\n12345,John,Doe,123 Main St,1234567890"  # noqa: E501
         actual = toml_parse_data_file(
             raw_data_file=RAW_DATA,

@@ -3,7 +3,7 @@
 import unittest
 from io import StringIO
 import pandas as pd
-from .constants import RAW_DATA, DATA_OUTLINE
+from testing.constants import RAW_DATA, DATA_OUTLINE
 
 from fwparser.fwparser import (
     parse_data_file,

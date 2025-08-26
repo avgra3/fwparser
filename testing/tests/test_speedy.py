@@ -1,7 +1,7 @@
 from fwparser.speedy import FastFwparser
 from fwparser.fwparser import parse_data_file
 from fwparser.errors import NotEnoughCpus
-from .create_fixedwidth_data import FixedWidthDataCreation
+from testing.create_fixedwidth_data import FixedWidthDataCreation
 import pytest
 
 LINE_ENDING = "\r\n"

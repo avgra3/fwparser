@@ -1,7 +1,7 @@
 """All tests with Polars using fwparser."""
 
 import polars as pl
-from .constants import RAW_DATA, DATA_OUTLINE
+from testing.constants import RAW_DATA, DATA_OUTLINE
 import unittest
 from io import StringIO
 from fwparser.fwparser import (
