@@ -1,6 +1,8 @@
 from fwparser.speedy import FastFwparser
 from fwparser.fwparser import parse_data_file
+from fwparser.errors import NotEnoughCpus
 from .create_fixedwidth_data import FixedWidthDataCreation
+import pytest
 
 LINE_ENDING = "\r\n"
 DELIMITER = "|"
@@ -25,9 +27,7 @@ DATA = FixedWidthDataCreation(
 
 
 def test_mulitiprocessing_correct():
-    # expected_header = ",".join(list(DEFINITIONS.keys())) + LINE_ENDING
     test_data = DATA.generate_data_file()
-    correct_parsed = test_data["delimited"]
     fixed_width = test_data["fixed_width"]
     fw_slow_parse = parse_data_file(
         raw_data_file=fixed_width,
@@ -53,7 +53,23 @@ def test_mulitiprocessing_correct():
     fw_fast_parse_set = set(fw_fast_parse.split(LINE_ENDING))
     fw_slow_parse_set = set(fw_slow_parse.split(LINE_ENDING))
 
-    # assert fw_fast_parse_set.issubset(fw_slow_parse_set)
-    # assert fw_slow_parse_set.issubset(fw_fast_parse_set)
-    # assert fw_fast_parse == correct_parsed
+    assert fw_fast_parse_set.issubset(fw_slow_parse_set)
+    assert fw_slow_parse_set.issubset(fw_fast_parse_set)
     assert fw_fast_parse == fw_slow_parse
+
+
+def test_not_enough_cpus():
+    BAD_CPU_COUNT = 1
+    test_data = DATA.generate_data_file()
+    fixed_width = test_data["fixed_width"]
+    with pytest.raises(NotEnoughCpus):
+        FastFwparser(
+            data=fixed_width,
+            header_config=DEFINITIONS,
+            trim_whitespace=TRIM_WHITESPACE,
+            sep=DELIMITER,
+            offset=OFFSET,
+            enclosed_by=ENCLOSED_BY,
+            line_ending=LINE_ENDING,
+            max_cpu=BAD_CPU_COUNT,
+        )

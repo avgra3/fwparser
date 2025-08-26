@@ -23,7 +23,7 @@ python -m pip install .
 Once you have fwparser installed, you can use it like below:
 
 ```python
-from fwparser import parse_data_file
+from fwparser.fwparser import parse_data_file
 
 """
 # Assuming foo.txt contains the below
@@ -56,6 +56,64 @@ customer_id,first_name,last_name,address,phone_number
 ```
 
 With the above, you can then either save the data to a file or use another package like [pandas](https://pandas.pydata.org/) or [polars](https://pola.rs/) to work more with the data.
+
+### Multiprocessing
+
+If you have a large file, think 1 million lines and/or 100+ fields of data, you should consider using the multiprocessing module.
+
+There are some things to note before running this method:
+
+- Do you have a low core count available to you? (Less than 2). If so, this method may actually take longer than the single threaded version because of the overhead of orchestrating the threads.
+
+- Do you have a large enough file for this to make sense? Is your file large in row count and/or field counts? This would be like having a around 1 million+ lines and/or around 50+ fields.
+
+Here is an example:
+
+```python
+from fwparser.speedy import FastFwparser
+
+"""
+# Assuming foo.txt contains the below
+12345John      Doe       123 Main St         1234567890
+"""
+FIXED_WIDTH_FILE = "foo.txt"
+
+# Needed in order to parse
+DATA_OUTLINE = {
+    "customer_id": (1, 5),
+    "first_name": (6, 10),
+    "last_name": (16, 10),
+    "address": (26, 20),
+    "phone_number": (46, 10),
+}
+
+TRIM_WHITESPACE = True
+OFFSET = 1
+ENCLOSED_BY = ""
+SEP = ","
+LINE_ENDING = "\r\n"
+MAX_CPUS = 4
+
+fwparser_object = FastFwparser(
+        data=FIXED_WIDTH_FILE,
+        header_config=DATA_OUTLINE,
+        trim_whitespace=TRIM_WHITESPACE,
+        offset=OFFSET,
+        enclosed_by=ENCLOSED_BY,
+        sep=SEP,
+        line_ending=LINE_ENDING,
+        max_cpu = MAX_CPUS,
+)
+
+data = fwparser_object.parse_data_file()
+
+print(data)
+
+"""
+customer_id,first_name,last_name,address,phone_number
+12345,John,Doe,123 Main St,1234567890
+"""
+```
 
 ### Optional Dependencies
 
