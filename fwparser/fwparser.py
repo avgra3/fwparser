@@ -77,6 +77,8 @@ def parse_data_file(
     trim_whitespace: bool = False,
     offset: int = 0,
     enclosed_by: str = "",
+    delimiter: str = ",",
+    line_ending: str = "\r\n",
 ) -> str:
     """Parse data file given inputs."""
     header = _get_column_names(header_config=header_config)
@@ -89,13 +91,13 @@ def parse_data_file(
     )
     result = ""
     for name in header:
-        result += f"{enclosed_by}{name}{enclosed_by},"
-    result = result.rstrip(",") + "\r\n"
+        result += f"{enclosed_by}{name}{enclosed_by}{delimiter}"
+    result = result.rstrip(delimiter) + line_ending
 
     for line in data_list:
         data = ""
         for column in header:
-            data += enclosed_by + line[column] + enclosed_by + ","
-        result += data.rstrip(",") + "\r\n"
+            data += enclosed_by + line[column] + enclosed_by + delimiter
+        result += data.rstrip(delimiter) + line_ending
 
-    return result.rstrip("\r\n")
+    return result.rstrip(line_ending)

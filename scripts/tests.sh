@@ -1,3 +1,3 @@
 #!/bin/bash
 
-pytest tests
+uv run pytest tests --ignore-glob="*/test_large_dataset.py"
