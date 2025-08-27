@@ -144,3 +144,9 @@ The base implementation of this project does not use any external dependencies. 
 ## Issues/Bugs
 
 If you find any issues while using this module feel free to open an issue or open a pull request for any bug fixes you find.
+
+## Benchmarking
+
+From the project source directory, run the command `make benchmark`. The benchmark will run and all results will be output into [Benchmark_Results](Benchmark_Results/) directory.
+
+Making the test file will take a while to make. If you have already ran the benchmark, the creation of the file will be skipped.

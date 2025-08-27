@@ -1,6 +1,7 @@
 """Creating arbitrarily large fixed width datasets."""
 
 from faker import Faker
+from multiprocessing import Process, Queue, cpu_count
 
 Faker.seed(100)
 
@@ -78,18 +79,47 @@ class FixedWidthDataCreation:
             "delimited": delim,
         }
 
+    def _producer(self, q: Queue, rows: int):
+        fixed_width = ""
+        delimited = ""
+        for row in range(rows):
+            data = self._fixed_width_and_delimited_line()
+            fixed_width += data["fixed_width"] + self.line_terminator
+            delimited += data["delimited"] + self.line_terminator
+        q.put({"fixed_width": fixed_width, "delimited": delimited})
+
+    def _consumer(self, q: Queue, count: int) -> dict[str, str]:
+        fixed_width = ""
+        delimited = ""
+        for _ in range(count):
+            result = q.get()
+            fixed_width += result["fixed_width"]
+            delimited += result["delimited"]
+        return {"fixed_width": fixed_width, "delimited": delimited}
+
     def generate_data_file(self) -> dict[str, str]:
         r"""Generates similated data.
 
         delimiter: str = \",\".
         """
-        fixed_width = ""
-        delimited = ""
-        for row in range(self.rows):
-            data = self._fixed_width_and_delimited_line()
-            fixed_width += data["fixed_width"] + self.line_terminator
-            delimited += data["delimited"] + self.line_terminator
-        return {
-            "fixed_width": fixed_width,
-            "delimited": delimited,
-        }
+        mp = []
+        q = Queue()
+        count = 0
+        rows_per_process = self.rows // cpu_count()
+        remainder_rows_per_process = self.rows % cpu_count()
+        for process in range(cpu_count()):
+            if rows_per_process - 1 < process:
+                p = Process(target=self._producer, args=(q, rows_per_process))
+            else:
+                p = Process(
+                    target=self._producer,
+                    args=(q, rows_per_process + remainder_rows_per_process),
+                )
+            p.start()
+            mp.append(p)
+            count += 1
+
+        result = self._consumer(q=q, count=cpu_count())
+        for p in mp:
+            p.join()
+        return result

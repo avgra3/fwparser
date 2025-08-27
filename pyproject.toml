@@ -41,11 +41,12 @@ addopts = [
 ]
 pythonpath = "fwparser"
 testpaths = [
-	"test",
+	"testing",
 ]
 
 [dependency-groups]
 dev = [
+    "py-cpuinfo>=9.0.0",
     "ruff>=0.12.9",
 ]
 

@@ -36,7 +36,7 @@ class FastFwparser:
         self.line_ending = line_ending
 
         if self.cpus == 1:
-            raise NotEnoughCpus("Cpus <= 2")
+            raise NotEnoughCpus("Cpus < 2.")
 
     def _get_column_names(self):
         header_order = []

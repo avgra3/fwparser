@@ -1,3 +1,3 @@
 #!/bin/bash
 
-uv run python testing/bench/large_dataset.py
+uv run pytest testing/bench/large_dataset.py --capture=no

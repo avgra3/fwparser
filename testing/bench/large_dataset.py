@@ -1,71 +1,60 @@
-"""Testing with large datasets for fwparser."""
+"""Performance comparisons between our single core process and multi-core process"""
 
-from testing.create_fixedwidth_data import FixedWidthDataCreation
+from time import perf_counter
+import csv
 from fwparser.fwparser import parse_data_file
 from fwparser.speedy import FastFwparser
-from platform import processor
-import csv
-import datetime
-from multiprocessing import cpu_count
+from pathlib import Path
+from .constants import (
+    GENERATED_ROWS,
+    DELIMITER,
+    LINE_TERMINATOR,
+    TRIM_WHITESPACE,
+    OFFSET,
+    ENCLOSED_BY,
+    CSV_NAME,
+    HEADER,
+    RAW_DATA_FILE,
+    DEFINITIONS,
+    CPU_COUNT,
+    CPU_NAME,
+)
+from .create_dataset import create_dataset
 
-DEFINITIONS = {
-    "customer_id": [0, 5],
-    "first_name": [5, 10],
-    "last_name": [15, 10],
-    "address": [25, 50],
-    "phone_number": [75, 10],
-}
-GENERATED_ROWS = 1_000_000_000
-DELIMITER = "|"
-LINE_TERMINATOR = "\r\n"
-TRIM_WHITESPACE = True
-OFFSET = 0
-ENCLOSED_BY = ""
-DATA = FixedWidthDataCreation(
-    definitions=DEFINITIONS,
-    delimiter=DELIMITER,
-    generated_rows=GENERATED_ROWS,
-    line_terminator=LINE_TERMINATOR,
-).generate_data_file()
-FIXED_WIDTH = DATA["fixed_width"]
-CPU_NAME = processor()
-CPU_COUNT = cpu_count()
-# CSV
-DATE = datetime.datetime.now()
-CSV_NAME = "bench_mark_{DATE}.csv"
-HEADER = [
-    "function_name",
-    "generated_rows",
-    "execution_time_seconds",
-    "cpu_name",
-    "cpu_count",
-    "run_number",
-]
-RUNS = 10
+RUNS = 100
 
 
-def create_output():
-    with open(CSV_NAME, "w", newline=LINE_TERMINATOR) as csvfile:
-        writer = csv.writer(csvfile)
-        writer.writerows(f"{DELIMITER}".join(HEADER))
+def test_create_output():
+    if not Path.exists(RAW_DATA_FILE):
+        print(f"File `{RAW_DATA_FILE}` doesn't currently exist. Making now.")
+        create_dataset()
+    print(f"Starting write to csv at {CSV_NAME}")
+    with open(CSV_NAME, "w", newline="") as csvfile:
+        writer = csv.writer(csvfile, delimiter=DELIMITER)
+        writer.writerow(HEADER)
 
+    with open(CSV_NAME, "a") as file:
         for i in range(RUNS):
-            single_parser_results = single_parser(run_number=i)
-            mp_parser_results = mp_parser(run_number=i)
-            result = [single_parser_results, mp_parser_results]
-            writer.writerows(result)
+            run_num = i + 1
+            print(f"Starting run number {run_num}")
+            single_parser_results = single_parser(run_number=run_num)
+            mp_parser_results = mp_parser(run_number=run_num)
+            file.write(single_parser_results)
+            file.write(mp_parser_results)
+    assert Path.exists(CSV_NAME)
 
 
 def single_parser(run_number: int) -> str:
-    start = datetime.datetime.now()
+    print("Running single_parser")
+    start = perf_counter()
     parse_data_file(
-        raw_data_file=DATA,
+        raw_data_file=RAW_DATA_FILE,
         header_config=DEFINITIONS,
         trim_whitespace=TRIM_WHITESPACE,
         offset=OFFSET,
         enclosed_by=ENCLOSED_BY,
     )
-    end = datetime.date.now()
+    end = perf_counter()
     elapsed = end - start
     results = [
         "single_parser",
@@ -75,13 +64,15 @@ def single_parser(run_number: int) -> str:
         f"{CPU_COUNT}",
         f"{run_number}",
     ]
-    return f"{DELIMITER}".join(results)
+    print("Finishing single_parser")
+    return f"{DELIMITER}".join(results) + LINE_TERMINATOR
 
 
 def mp_parser(run_number: int) -> str:
-    start = datetime.datetime.now()
+    print("Starting mp_parser")
+    start = perf_counter()
     FastFwparser(
-        data=DATA,
+        data=RAW_DATA_FILE,
         header_config=DEFINITIONS,
         trim_whitespace=TRIM_WHITESPACE,
         sep=DELIMITER,
@@ -90,7 +81,7 @@ def mp_parser(run_number: int) -> str:
         line_ending=LINE_TERMINATOR,
         max_cpu=CPU_COUNT,
     ).parse_data_file()
-    end = datetime.date.now()
+    end = perf_counter()
     elapsed = end - start
     results = [
         "mp_parser",
@@ -100,4 +91,5 @@ def mp_parser(run_number: int) -> str:
         f"{CPU_COUNT}",
         f"{run_number}",
     ]
-    return f"{DELIMITER}".join(results)
+    print("Starting mp_parser")
+    return f"{DELIMITER}".join(results) + LINE_TERMINATOR
