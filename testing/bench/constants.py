@@ -1,7 +1,8 @@
-from cpuinfo import get_cpu_info
+from datetime import datetime
 from multiprocessing import cpu_count
 from pathlib import Path
-from datetime import datetime
+
+from cpuinfo import get_cpu_info
 
 # Basic CPU info
 CPU_INFO = get_cpu_info()
@@ -26,7 +27,7 @@ ENCLOSED_BY = ""
 
 # CSV specific Parameters
 DATE = datetime.now().strftime("%Y-%m-%d")
-CSV_NAME = Path.cwd() / "Benchmark_Results" / f"bench_mark_{DATE}.csv"
+CSV_NAME = Path.cwd() / "Benchmark_Results" / "bench_mark.csv"
 HEADER = [
     "function_name",
     "generated_rows",
@@ -34,8 +35,10 @@ HEADER = [
     "cpu_name",
     "cpu_count",
     "run_number",
+    "date_ran",
 ]
 
 
 # Simulated Data File Name
 RAW_DATA_FILE = Path.cwd() / "testing/bench/raw_data_file.txt"
+RUNS = 100

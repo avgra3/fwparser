@@ -1,13 +1,15 @@
 """All tests with Polars using fwparser."""
 
-import polars as pl
-from testing.constants import RAW_DATA, DATA_OUTLINE
 import unittest
 from io import StringIO
+
+import polars as pl
+
 from fwparser.fwparser import (
     parse_data_file,
 )
 from fwparser.polars import parse_to_polars
+from testing.constants import DATA_OUTLINE, RAW_DATA
 
 
 class Test_Parser_and_Polars(unittest.TestCase):

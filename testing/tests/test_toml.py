@@ -1,14 +1,15 @@
 """All tests for Parsing Toml files with fwparser."""
 
 import unittest
-from testing.constants import VALID_TEST_TOML, INVALID_TEST_TOMLS, RAW_DATA
 
+from fwparser.errors import InvalidTomlDefinitons
 from fwparser.toml_parser import (
     _get_configuration,
     _get_definitions,
     _turn_lists_to_tuples,
     toml_parse_data_file,
 )
+from testing.constants import INVALID_TEST_TOMLS, RAW_DATA, VALID_TEST_TOML
 
 
 class Test_Parser_with_Toml(unittest.TestCase):
@@ -56,7 +57,7 @@ class Test_Parser_with_Toml(unittest.TestCase):
         invalid_input = {"random": {"Column": (0, 5)}}
         valid_expected = {"Column": (0, 5)}
         self.assertDictEqual(valid_expected, _get_definitions(valid_input))
-        with self.assertRaises(Exception):
+        with self.assertRaises(InvalidTomlDefinitons):
             _get_definitions(invalid_input)
 
     def test_get_configuration_valid(self):
@@ -79,7 +80,7 @@ class Test_Parser_with_Toml(unittest.TestCase):
     def test_get_configuration_throws(self):
         """Verify an invalid toml file throws an exception."""
         for file in INVALID_TEST_TOMLS:
-            with self.assertRaises(Exception):
+            with self.assertRaises(InvalidTomlDefinitons):
                 _get_configuration(file)
 
 

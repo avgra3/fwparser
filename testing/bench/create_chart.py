@@ -1,42 +1,33 @@
-import pandas as pd
 from pathlib import Path
+
 import matplotlib.pyplot as plt
+import pandas as pd
 from constants import CSV_NAME, DELIMITER
 
 
 def make_df() -> pd.DataFrame:
     df = pd.read_csv(CSV_NAME, sep=DELIMITER, header=0)
-    df_grouped = (
-        df[
-            [
-                "function_name",
-                "generated_rows",
-                "execution_time_seconds",
-                "cpu_name",
-                "cpu_count",
-            ]
-        ]
-        .groupby(
-            by=["function_name", "generated_rows", "cpu_name", "cpu_count"],
-            group_keys=False,
-        )
-        .mean()
-    )
 
-    pivot_df = df_grouped.pivot_table(
-        index=["generated_rows"],
-        columns=["function_name", "cpu_count"],
+    pivot_df = pd.pivot_table(
+        df,
+        index=["cpu_count"],  # , "generated_rows"],
+        columns=["function_name"],
         values="execution_time_seconds",
+        aggfunc="mean",
     )
     return pivot_df
 
 
 def make_chart(df: pd.DataFrame) -> None:
-    df.plot.barh(rot=0, figsize=(15, 5))
+    df.plot.bar(rot=0, figsize=(10, 5), table=False, width=1.0)
     plt.title("Multiprocessing vs Single Process")
-    plt.ylabel("Lines Parsed")
-    plt.xlabel("execution time (seconds)")
-    plt.legend(loc="center right")
+    plt.xlabel("CPU Cores")
+    plt.ylabel("Execution Time (seconds)")
+    plt.legend(
+        loc="upper right",
+        bbox_to_anchor=(1.0, 0.75),
+        title="Function",
+    )
 
     plot_name = Path.cwd() / "Benchmark_Results" / "Results.png"
     plt.savefig(
@@ -45,7 +36,7 @@ def make_chart(df: pd.DataFrame) -> None:
         dpi="figure",
         format=None,
         metadata=None,
-        bbox_inches=None,
+        bbox_inches="tight",
         pad_inches=0.1,
         facecolor="auto",
         edgecolor="auto",

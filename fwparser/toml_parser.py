@@ -15,6 +15,8 @@ except ImportError as e:
     print(e)
 
 import os
+
+from fwparser.errors import InvalidTomlDefinitions
 from fwparser.fwparser import parse_data_file
 
 
@@ -26,14 +28,16 @@ def _get_configuration(config_file: str) -> dict:
         with open(config_file, "rb") as toml_config:
             config_dict = tomli.load(toml_config)
         return config_dict
-    raise Exception(
+    raise InvalidTomlDefinitions(
         f'The configuration file: {config_file} is not a file or does not have the "toml" extension'  # noqa: E501
     )
 
 
 def _get_definitions(config_dict: dict) -> dict:
     if "definitions" not in config_dict:
-        raise Exception("You are misisng the definitions section of your toml")
+        raise InvalidTomlDefinitions(
+            "You are misisng the definitions section of your toml"
+        )
     config = config_dict["definitions"]
     return config
 

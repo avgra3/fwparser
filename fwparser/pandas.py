@@ -11,6 +11,7 @@ except ImportError as e:
     print(e)
 
 from io import StringIO
+
 from fwparser.fwparser import parse_data_file
 from fwparser.toml_parser import toml_parse_data_file
 

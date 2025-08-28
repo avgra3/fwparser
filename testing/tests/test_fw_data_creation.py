@@ -1,5 +1,5 @@
-from testing.create_fixedwidth_data import FixedWidthDataCreation
 from fwparser.fwparser import parse_data_file
+from testing.create_fixedwidth_data import FixedWidthDataCreation
 
 DEFINITIONS = {
     "customer_id": [0, 5],
@@ -35,8 +35,8 @@ def test_fw_data_generated():
     fixed_width_line_count = len(fixed_width_data.split(LINE_TERMINATOR))
     # We generate a header row so the line count should be minus 1
     # for actual data rows.
-    assert GENERATED_ROWS == delimited_line_count - 1
-    assert GENERATED_ROWS == fixed_width_line_count - 1
+    assert delimited_line_count - 1 == GENERATED_ROWS
+    assert fixed_width_line_count - 1 == GENERATED_ROWS
 
 
 def test_parse_data():
