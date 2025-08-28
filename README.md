@@ -114,6 +114,9 @@ customer_id,first_name,last_name,address,phone_number
 12345,John,Doe,123 Main St,1234567890
 """
 ```
+#### Comparing Single to Multi Processing
+
+![results](./Benchmark_Results/Results.png)
 
 ### Optional Dependencies
 

@@ -11,3 +11,5 @@ test_speedy: lint
 	@scripts/test_speedy.sh	
 benchmark: lint
 	@scripts/benchmark.sh	
+chart_results: lint
+	@scripts/chart_results.sh
