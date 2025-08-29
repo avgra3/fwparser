@@ -13,3 +13,4 @@ venv/
 # Practice data
 PARSED/
 parser.py/
+*raw_data_file.txt

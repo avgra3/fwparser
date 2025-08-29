@@ -41,14 +41,43 @@ addopts = [
 ]
 pythonpath = "fwparser"
 testpaths = [
-	"test",
+	"testing",
 ]
 
 [dependency-groups]
 dev = [
+    "matplotlib>=3.10.5",
+    "pandas>=2.3.0",
+    "py-cpuinfo>=9.0.0",
     "ruff>=0.12.9",
 ]
 
 [tool.ruff]
-line-length = 80
+line-length = 88
+indent-width = 4
+# Set to the minimum supported Python version
+target-version = "py310"
 
+[tool.ruff.lint]
+select = [
+    # pycodestyle
+    "E",
+    # Pyflakes
+    "F",
+    # pyupgrade
+    "UP",
+    # flake8-bugbear
+    "B",
+    # flake8-simplify
+    "SIM",
+    # isort
+    "I",
+]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
+docstring-code-format = false
+docstring-code-line-length = "dynamic"

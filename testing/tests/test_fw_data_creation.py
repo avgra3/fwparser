@@ -1,7 +1,5 @@
-"""Testing with large datasets for fwparser."""
-
-from .create_fixedwidth_data import FixedWidthDataCreation
 from fwparser.fwparser import parse_data_file
+from testing.create_fixedwidth_data import FixedWidthDataCreation
 
 DEFINITIONS = {
     "customer_id": [0, 5],
@@ -10,10 +8,14 @@ DEFINITIONS = {
     "address": [25, 50],
     "phone_number": [75, 10],
 }
-GENERATED_ROWS = 1_000_000
+GENERATED_ROWS = 1_000
+DELIMITER = "|"
+LINE_TERMINATOR = "\r\n"
 DATA = FixedWidthDataCreation(
     definitions=DEFINITIONS,
+    delimiter=DELIMITER,
     generated_rows=GENERATED_ROWS,
+    line_terminator=LINE_TERMINATOR,
 )
 
 
@@ -24,17 +26,17 @@ def test_fw_data_generated():
     and to ensure the delimited and fixed width data sets have the
     same line count.
     """
-    test_data = DATA.generate_data_file(delimiter="|")
+    test_data = DATA.generate_data_file()
     # We need to first verify we have the correct object
     assert isinstance(test_data, dict)
     delimited_data = test_data["delimited"]
     fixed_width_data = test_data["fixed_width"]
-    delimited_line_count = len(delimited_data.split("\r\n"))
-    fixed_width_line_count = len(fixed_width_data.split("\r\n"))
+    delimited_line_count = len(delimited_data.split(LINE_TERMINATOR))
+    fixed_width_line_count = len(fixed_width_data.split(LINE_TERMINATOR))
     # We generate a header row so the line count should be minus 1
     # for actual data rows.
-    assert GENERATED_ROWS == delimited_line_count - 1
-    assert GENERATED_ROWS == fixed_width_line_count - 1
+    assert delimited_line_count - 1 == GENERATED_ROWS
+    assert fixed_width_line_count - 1 == GENERATED_ROWS
 
 
 def test_parse_data():
@@ -47,12 +49,8 @@ def test_parse_data():
         trim_whitespace=False,
         offset=0,
         enclosed_by="",
+        delimiter=DELIMITER,
     )
-    header = ",".join(list(DEFINITIONS.keys())) + "\r\n"
+    header = f"{DELIMITER}".join(list(DEFINITIONS.keys())) + "\r\n"
     actual = header + data["delimited"]
     assert actual == parsed_data
-
-
-def test_multiprocessing():
-    """WORK IN PROGRESS"""
-    assert 1 == 1

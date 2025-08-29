@@ -1,13 +1,15 @@
 """All fwparser base tests."""
 
 import unittest
-from .constants import RAW_DATA, DATA_OUTLINE
+
+from fwparser.errors import BadInputString
 from fwparser.fwparser import (
     _get_column_names,
     _parse_data_by_line,
     _split_data,
     parse_data_file,
 )
+from testing.constants import DATA_OUTLINE, RAW_DATA
 
 
 class Test_Parser(unittest.TestCase):
@@ -52,7 +54,7 @@ class Test_Parser(unittest.TestCase):
             "HERE IS LINE TWO",
             "HERE IS LINE THREE",
         ]
-        input01 = "./tests/test_data.txt"
+        input01 = "./testing/tests/test_data.txt"
         actual01 = _split_data(raw_data_file=input01)
         self.assertEqual(expected, actual01)
 
@@ -73,7 +75,7 @@ class Test_Parser(unittest.TestCase):
         """Confim error raised with bad inputs."""
         bad_input_not_string = 123
 
-        with self.assertRaises(Exception):
+        with self.assertRaises(BadInputString):
             _split_data(bad_input_not_string)
 
     def test_raw_has_enclosed(self):

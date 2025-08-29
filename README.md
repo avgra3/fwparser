@@ -57,9 +57,27 @@ customer_id,first_name,last_name,address,phone_number
 
 With the above, you can then either save the data to a file or use another package like [pandas](https://pandas.pydata.org/) or [polars](https://pola.rs/) to work more with the data.
 
+### Optional Dependencies
+
+You can optionally install the package to have [Toml](https://toml.io/en/), [Pandas](https://duckduckgo.com/?t=ffab&q=python+pandas), or [Polars](https://pola.rs/) support.
+
+```bash
+# With Toml support
+pip install --upgrade "fwparser[toml] @ git+https://github.com/avgra3/fwparser.git"
+
+# With Pandas support -- includes toml support
+pip install --upgrade "fwparser[pandas] @ git+https://github.com/avgra3/fwparser.git"
+
+# With Polars support -- includes toml support
+pip install --upgrade "fwparser[polars] @ git+https://github.com/avgra3/fwparser.git"
+
+# With Polars, Pandas, and Toml support
+pip install --upgrade "fwparser[all] @ git+https://github.com/avgra3/fwparser.git"
+```
+
 ### Multiprocessing
 
-If you have a large file, think 1 million lines and/or 100+ fields of data, you should consider using the multiprocessing module.
+If you have a large file, think 1 million lines and/or 100+ fields of data, you should consider using the multiprocessing module. See the [Benchmarking](Benchmarking) section for how these functions scale.
 
 There are some things to note before running this method:
 
@@ -112,26 +130,16 @@ print(data)
 """
 customer_id,first_name,last_name,address,phone_number
 12345,John,Doe,123 Main St,1234567890
+.....
 """
 ```
+#### Comparing Single to Multi Processing
 
-### Optional Dependencies
+A comparison of the single and multi-process functions for a 1 million record fixed width file are below. The CPU that was used is an AMD Ryzen 5 2500U processor with 4 cores and 8 threads. This is not a particulary powerful cpu, but the benchmark hightlights that when using more than  cores, performance does not scale linearly (as expected).
 
-You can optionally install the package to have [Toml](https://toml.io/en/), [Pandas](https://duckduckgo.com/?t=ffab&q=python+pandas), or [Polars](https://pola.rs/) support.
+![results](./Benchmark_Results/Results.png)
 
-```bash
-# With Toml support
-pip install --upgrade "fwparser[toml] @ git+https://github.com/avgra3/fwparser.git"
-
-# With Pandas support -- includes toml support
-pip install --upgrade "fwparser[pandas] @ git+https://github.com/avgra3/fwparser.git"
-
-# With Polars support -- includes toml support
-pip install --upgrade "fwparser[polars] @ git+https://github.com/avgra3/fwparser.git"
-
-# With Polars, Pandas, and Toml support
-pip install --upgrade "fwparser[all] @ git+https://github.com/avgra3/fwparser.git"
-```
+From the benchmark results, you can see that using the multiprocessing function without declaring a core count < 2 results in worse performance than the single core option.
 
 ## Why
 
@@ -144,3 +152,9 @@ The base implementation of this project does not use any external dependencies. 
 ## Issues/Bugs
 
 If you find any issues while using this module feel free to open an issue or open a pull request for any bug fixes you find.
+
+## Benchmarking
+
+From the project source directory, run the command `make benchmark`. The benchmark will run and all results will be output into [Benchmark_Results](Benchmark_Results/) directory.
+
+Making the test file will take a while to make. If you have already ran the benchmark, the creation of the file will be skipped.

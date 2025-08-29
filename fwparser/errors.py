@@ -3,6 +3,20 @@
 # ruff: noqa: D100, D101, E501
 
 
+class InvalidTomlDefinitions(Exception):
+    def __init__(self, message, error_code=None):
+        super().__init__(message)
+        self.error_code = error_code
+
+    def __str__(self):
+        base_message = (
+            "The definitions section of your toml file is invalid or missing."
+        )
+        if self.error_code:
+            return f"{base_message}\n{self.args[0]} (Error code: {self.error_code})"
+        return f"{base_message}\n{self.args[0]}"
+
+
 class NoLineTerminatorError(Exception):
     def __init__(self, message, error_code=None):
         super().__init__(message)
@@ -43,4 +57,14 @@ class NotEnoughCpus(Exception):
 
     def __str__(self):
         base_message = "The count of cpus <= 1. Meaning this method is inefficient. Please use the base `fwparser.parse_data_file` method instead."
+        return f"{base_message}\n{self.args[0]}"
+
+
+class BadInputString(Exception):
+    def __init__(self, message, error_code=None):
+        super().__init__(message)
+        self.error_code = error_code
+
+    def __str__(self):
+        base_message = "The input you have is invalid."
         return f"{base_message}\n{self.args[0]}"

@@ -1,7 +1,8 @@
 """fwparser tools for converting fixed witdth files to delimited."""
 
-from .errors import IndexOutOfBoundsError
 import os
+
+from .errors import BadInputString, IndexOutOfBoundsError
 
 
 def _get_column_names(header_config: dict[str, tuple]) -> list[str]:
@@ -61,7 +62,7 @@ def _split_data(raw_data_file: str) -> list[str]:
         return data
     if os.path.isdir(raw_data_file):
         message = f'The filepath, "{raw_data_file}", you put is a directory...'
-        raise Exception(message)
+        raise BadInputString(message)
     if isinstance(raw_data_file, str):
         data = raw_data_file.splitlines()
         return data

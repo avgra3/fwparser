@@ -1,8 +1,9 @@
-from pathlib import Path
-from multiprocessing import Process, Queue
-from .errors import IndexOutOfBoundsError, NotAFile, NotEnoughCpus
 import os
 from itertools import islice
+from multiprocessing import Process, Queue
+from pathlib import Path
+
+from .errors import IndexOutOfBoundsError, NotAFile, NotEnoughCpus
 
 
 class FastFwparser:
@@ -35,8 +36,8 @@ class FastFwparser:
         self.sep = sep
         self.line_ending = line_ending
 
-        if self.cpus == 1:
-            raise NotEnoughCpus("Cpus <= 2")
+        if self.cpus < 1:
+            raise NotEnoughCpus("Cpus < 1.")
 
     def _get_column_names(self):
         header_order = []
