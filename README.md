@@ -18,6 +18,14 @@ cd ./fwparser
 python -m pip install .
 ```
 
+Or
+
+```bash
+uv add git+https://github.com/avgra3/fwparser.git@main
+```
+
+You can change the `@main` to a spcific branch or if you leave it out altogether, you will default to the main branch.
+
 ## Usage
 
 Once you have fwparser installed, you can use it like below:
