@@ -1,3 +1,3 @@
 #!/bin/bash
 
-uv run pytest ./testing/tests/
+uv run pytest tests --ignore-glob="bench/*.py"

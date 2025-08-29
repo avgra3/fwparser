@@ -69,7 +69,7 @@ def _split_data(raw_data_file: str) -> list[str]:
     message = f"""The raw data path you included is not a file path or of type string:
     {raw_data_file}
     """
-    raise Exception(message)
+    raise BadInputString(message)
 
 
 def parse_data_file(

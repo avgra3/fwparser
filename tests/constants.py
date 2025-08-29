@@ -1,8 +1,8 @@
 """Constants sued throughout testing."""
 
-VALID_TEST_TOML = "./testing/tests/test_valid_toml.toml"
+VALID_TEST_TOML = "./tests/test_valid_toml.toml"
 INVALID_TEST_TOMLS = [
-    "./testing/tests/test_invalid_toml.toml",
+    "./tests/test_invalid_toml.toml",
     "INVALID_TEST",
     "NOT_TOML",
 ]

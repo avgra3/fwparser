@@ -1,3 +1,3 @@
 #!/bin/bash
 
-uv run pytest testing/tests/test_speedy.py
+uv run pytest tests/test_speedy.py

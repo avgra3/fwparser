@@ -9,7 +9,8 @@ from fwparser.fwparser import (
     _split_data,
     parse_data_file,
 )
-from testing.constants import DATA_OUTLINE, RAW_DATA
+
+from .constants import DATA_OUTLINE, RAW_DATA
 
 
 class Test_Parser(unittest.TestCase):
@@ -54,7 +55,7 @@ class Test_Parser(unittest.TestCase):
             "HERE IS LINE TWO",
             "HERE IS LINE THREE",
         ]
-        input01 = "./testing/tests/test_data.txt"
+        input01 = "./tests/test_data.txt"
         actual01 = _split_data(raw_data_file=input01)
         self.assertEqual(expected, actual01)
 

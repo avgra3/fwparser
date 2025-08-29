@@ -3,7 +3,8 @@ import pytest
 from fwparser.errors import NotEnoughCpus
 from fwparser.fwparser import parse_data_file
 from fwparser.speedy import FastFwparser
-from testing.create_fixedwidth_data import FixedWidthDataCreation
+
+from .create_fixedwidth_data import FixedWidthDataCreation
 
 LINE_ENDING = "\r\n"
 DELIMITER = "|"
@@ -60,7 +61,7 @@ def test_mulitiprocessing_correct():
 
 
 def test_not_enough_cpus():
-    BAD_CPU_COUNT = 1
+    BAD_CPU_COUNT = 0
     test_data = DATA.generate_data_file()
     fixed_width = test_data["fixed_width"]
     with pytest.raises(NotEnoughCpus):

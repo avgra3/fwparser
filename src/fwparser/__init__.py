@@ -1,6 +1,7 @@
 __all__ = [
     "fwparser.fwparser.parse_data_file",
-    "fwparser.errors.NoLineTerminatorError",
+    "fwparser.errors.*",
+    "fwparser.speedy",
 ]
 try:
     import tomli

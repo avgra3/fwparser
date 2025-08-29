@@ -1,4 +1,4 @@
 #!/bin/bash
 
-uv run python testing/bench/create_chart.py
+uv run python tests/bench/create_chart.py
 

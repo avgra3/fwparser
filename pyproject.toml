@@ -1,9 +1,9 @@
 [project]
-name = "fwParser"
+name = "fwparser"
 description = "A simple parser for fixed width files!"
 keywords = ["text", "fixed width"]
 readme = "README.md"
-license = {file = "LICENSE"}
+license = "MIT"
 version = "0.2.0"
 requires-python = ">=3.10"
 authors = [
@@ -13,6 +13,15 @@ maintainers = [
 	{name = "Antony G."}
 ]
 dependencies = [
+    "faker>=37.5.3",
+    "pandas>=2.3.0",
+    "polars>=1.31.0",
+    "pytest>=8.4.1",
+    "tomli>=2.2.1",
+]
+
+[dependency-groups]
+dev = [
     "faker>=37.5.3",
     "pandas>=2.3.0",
     "polars>=1.31.0",
@@ -35,21 +44,13 @@ Repository = "https://github.com/avgra3/fwparser"
 "Bug Tracker" = "https://github.com/avgra3/fwparser/issues"
 
 [tools.pytest.ini_options]
+#pythonpath = ["src", "fwparser", "src/fwparser"]
 addopts = [
 	"--import-mode=importlib",
 	"--strict-markers",
 ]
-pythonpath = "fwparser"
 testpaths = [
-	"testing",
-]
-
-[dependency-groups]
-dev = [
-    "matplotlib>=3.10.5",
-    "pandas>=2.3.0",
-    "py-cpuinfo>=9.0.0",
-    "ruff>=0.12.9",
+	"tests",
 ]
 
 [tool.ruff]
