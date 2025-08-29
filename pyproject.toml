@@ -3,8 +3,7 @@ name = "fwParser"
 description = "A simple parser for fixed width files!"
 keywords = ["text", "fixed width"]
 readme = "README.md"
-license = "MIT",
-license-files {paths = ["LICENSE"]},
+license = "MIT"
 version = "0.2.0"
 requires-python = ">=3.10"
 authors = [
@@ -46,7 +45,7 @@ Repository = "https://github.com/avgra3/fwparser"
 
 [tool.uv.build-backend]
 module-name = "fwparser"
-module-root = ""
+module-root = "fwparser"
 
 [tools.pytest.ini_options]
 addopts = [
