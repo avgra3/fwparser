@@ -43,19 +43,9 @@ Documentation = "https://github.com/avgra3/fwparser/blob/main/README.md"
 Repository = "https://github.com/avgra3/fwparser"
 "Bug Tracker" = "https://github.com/avgra3/fwparser/issues"
 
-[tool.uv.build-backend]
-module-name = "fwparser"
-module-root = "fwparser"
-
 [tools.pytest.ini_options]
-addopts = [
-	"--import-mode=importlib",
-	"--strict-markers",
-]
-pythonpath = "fwparser"
-testpaths = [
-	"testing",
-]
+pythonpath = "src"
+
 
 [tool.ruff]
 line-length = 88

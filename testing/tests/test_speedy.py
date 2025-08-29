@@ -60,7 +60,7 @@ def test_mulitiprocessing_correct():
 
 
 def test_not_enough_cpus():
-    BAD_CPU_COUNT = 1
+    BAD_CPU_COUNT = 0
     test_data = DATA.generate_data_file()
     fixed_width = test_data["fixed_width"]
     with pytest.raises(NotEnoughCpus):
