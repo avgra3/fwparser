@@ -9,7 +9,8 @@ from fwparser.fwparser import (
     parse_data_file,
 )
 from fwparser.polars import parse_to_polars
-from testing.constants import DATA_OUTLINE, RAW_DATA
+
+from .constants import DATA_OUTLINE, RAW_DATA
 
 
 class Test_Parser_and_Polars(unittest.TestCase):

@@ -11,7 +11,7 @@ test_large_data: lint
 	@scripts/tests_large_data.sh
 test_speedy: lint
 	@scripts/test_speedy.sh	
-benchmark: chart_results
+benchmark:  chart_results
 	@scripts/benchmark.sh	
 chart_results: lint
 	@scripts/chart_results.sh

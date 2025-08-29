@@ -1,5 +1,6 @@
 from fwparser.fwparser import parse_data_file
-from testing.create_fixedwidth_data import FixedWidthDataCreation
+
+from .create_fixedwidth_data import FixedWidthDataCreation
 
 DEFINITIONS = {
     "customer_id": [0, 5],

@@ -1,5 +1,5 @@
 [project]
-name = "fwParser"
+name = "fwparser"
 description = "A simple parser for fixed width files!"
 keywords = ["text", "fixed width"]
 readme = "README.md"
@@ -44,8 +44,14 @@ Repository = "https://github.com/avgra3/fwparser"
 "Bug Tracker" = "https://github.com/avgra3/fwparser/issues"
 
 [tools.pytest.ini_options]
-pythonpath = "src"
-
+#pythonpath = ["src", "fwparser", "src/fwparser"]
+addopts = [
+	"--import-mode=importlib",
+	"--strict-markers",
+]
+testpaths = [
+	"tests",
+]
 
 [tool.ruff]
 line-length = 88

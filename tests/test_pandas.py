@@ -9,7 +9,8 @@ from fwparser.fwparser import (
     parse_data_file,
 )
 from fwparser.pandas import parse_to_pandas
-from testing.constants import DATA_OUTLINE, RAW_DATA
+
+from .constants import DATA_OUTLINE, RAW_DATA
 
 
 class Test_Parser_and_Pandas(unittest.TestCase):
