@@ -20,6 +20,15 @@ dependencies = [
     "tomli>=2.2.1",
 ]
 
+[dependency-groups]
+dev = [
+    "faker>=37.5.3",
+    "pandas>=2.3.0",
+    "polars>=1.31.0",
+    "pytest>=8.4.1",
+    "tomli>=2.2.1",
+]
+
 [project.optional-dependencies]
 toml = ["tomli"]
 pandas = ["pandas", "tomli"]
@@ -33,6 +42,10 @@ Homepage = "https://github.com/avgra3/fwparser"
 Documentation = "https://github.com/avgra3/fwparser/blob/main/README.md"
 Repository = "https://github.com/avgra3/fwparser"
 "Bug Tracker" = "https://github.com/avgra3/fwparser/issues"
+
+[tool.uv.build-backend]
+module-name = "fwparser"
+module-root = ""
 
 [tools.pytest.ini_options]
 addopts = [
