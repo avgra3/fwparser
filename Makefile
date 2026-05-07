@@ -1,17 +1,12 @@
-help:
-	@echo "fwparser!"
-	@echo "Available commands: 'lint' and 'test'"
-lint: format
-	@scripts/linter.sh
+.PHONY: lint format tests
+lint:
+	uv run --dev rff check --fix --verbose
 format:
-	@scripts/format.sh
-test: lint
-	@scripts/tests.sh
-test_large_data: lint
-	@scripts/tests_large_data.sh
-test_speedy: lint
-	@scripts/test_speedy.sh	
-benchmark:  chart_results
-	@scripts/benchmark.sh	
-chart_results: lint
-	@scripts/chart_results.sh
+	uv run --dev ruff format
+tests: format
+	uv run --dev pytest tests --ignore-glob="bench/*.py"
+benchmark: tests
+	uv run --dev pytest tests/bench/large_dataset.py --capture=no
+create-chart: tests
+	uv run --dev python tests/bench/create_chart.py
+
