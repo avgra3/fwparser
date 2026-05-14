@@ -1,5 +1,5 @@
-from testing.create_fixedwidth_data import FixedWidthDataCreation
-
+# from testing.create_fixedwidth_data import FixedWidthDataCreation
+from ..create_fixedwidth_data import FixedWidthDataCreation
 from .constants import (
     DEFINITIONS,
     DELIMITER,

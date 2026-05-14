@@ -4,7 +4,7 @@ description = "A simple parser for fixed width files!"
 keywords = ["text", "fixed width"]
 readme = "README.md"
 license = "MIT"
-version = "0.2.0"
+version = "0.3.0"
 requires-python = ">=3.10"
 authors = [
 	{name = "Antony G."}
@@ -28,6 +28,7 @@ dev = [
     "pytest>=8.4.1",
     "ruff>=0.15.12",
     "tomli>=2.2.1",
+    "ty>=0.0.34",
 ]
 
 [project.optional-dependencies]

@@ -25,7 +25,7 @@ def parse_to_pandas(
     enclosed_by: str = "",
 ):
     """Parse raw data to a Pandas dataframe."""
-    if using_toml:
+    if isinstance(header_config, str) and using_toml:
         parsed_data = toml_parse_data_file(
             raw_data_file=raw_data_file,
             toml_file_path=header_config,
@@ -33,7 +33,12 @@ def parse_to_pandas(
             offset=offset,
             enclosed_by=enclosed_by,
         )
-    else:
+    elif (
+        isinstance(header_config, dict)
+        and all(isinstance(item, str) for item in header_config)
+        and all(isinstance(header_config[item], tuple) for item in header_config)
+        and all(len(header_config[item]) == 2 for item in header_config)
+    ):
         parsed_data = parse_data_file(
             raw_data_file=raw_data_file,
             header_config=header_config,

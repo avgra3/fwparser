@@ -42,7 +42,7 @@ def _get_definitions(config_dict: dict) -> dict:
     return config
 
 
-def _turn_lists_to_tuples(config: dict[list]) -> dict[tuple]:
+def _turn_lists_to_tuples(config: dict[str, list]) -> dict[str, tuple]:
     correct_config = {}
     for key in config:
         correct_config[key] = (config[key][0], config[key][1])

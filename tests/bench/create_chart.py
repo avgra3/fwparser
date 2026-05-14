@@ -2,7 +2,8 @@ from pathlib import Path
 
 import matplotlib.pyplot as plt
 import pandas as pd
-from constants import CSV_NAME, DELIMITER
+
+from .constants import CSV_NAME, DELIMITER
 
 
 def make_df() -> pd.DataFrame:

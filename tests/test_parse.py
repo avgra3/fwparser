@@ -1,3 +1,4 @@
+# ty: ignore[invalid-argument-type]
 """All fwparser base tests."""
 
 import unittest

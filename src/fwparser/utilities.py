@@ -1,6 +1,6 @@
 """Utilities for fwparser."""
 
-from errors import NoLineTerminatorError
+from .errors import NoLineTerminatorError
 
 
 def get_line_terminator(filename: str):
@@ -16,7 +16,7 @@ def get_line_terminator(filename: str):
 
 def split_data_by_line(
     raw_data: str,
-    line_terminator: str = None,
+    line_terminator: str | None = None,
 ) -> list[str]:
     """Split raw data into lines.
 
@@ -25,6 +25,6 @@ def split_data_by_line(
     return list[str]
     """
     if line_terminator is None:
-        raise NoLineTerminatorError()
+        raise NoLineTerminatorError(message="Line terminator was not specified.")
     data = raw_data.split(line_terminator)
     return data

@@ -1,7 +1,9 @@
 """fwparser tools for converting fixed witdth files to delimited."""
 
 import os
-from typing import Generator
+from collections.abc import Generator
+from pathlib import Path
+
 from .errors import BadInputString, IndexOutOfBoundsError
 
 
@@ -23,7 +25,10 @@ def _parse_data_by_line(
     for header, (start, length) in header_config.items():
         value_start = int(start) - offset
         if value_start < 0:
-            raise IndexOutOfBoundsError(field_name=header)
+            raise IndexOutOfBoundsError(
+                field_name=header,
+                message="Index out of bounds",
+            )
 
         value_end = value_start + int(length)
         data = raw_data_line[value_start:value_end]
@@ -69,10 +74,12 @@ def _split_data(raw_data_file: str) -> list[str]:
 
 
 def _get_line_iterator(raw_data_file: str) -> Generator[str, None, None]:
-    """Return an iterator over lines, avoiding loading the entire file into memory when possible."""
+    """Return an iterator over lines,
+    avoiding loading the entire file into memory when possible."""
     if os.path.isfile(raw_data_file):
         with open(raw_data_file, encoding="utf-8", errors="replace") as file:
-            yield from (line.rstrip("\r\n") for line in file)  # normalize line endings
+            # normalize line endings
+            yield from (line.rstrip("\r\n") for line in file)
         return
 
     if os.path.isdir(raw_data_file):
@@ -83,25 +90,23 @@ def _get_line_iterator(raw_data_file: str) -> Generator[str, None, None]:
         return
 
     raise BadInputString(
-        f"The raw data path you included is not a file path or string:\n{raw_data_file}"
+        f"""The raw data path you included is not a file path or string:\n{
+            raw_data_file
+        }"""
     )
 
 
 def parse_data_file(
-    raw_data_file: str,
-    header_config: dict[str, tuple],
+    raw_data_file: str | Path,
+    header_config: dict[str, tuple[int, int]],
     trim_whitespace: bool = False,
     offset: int = 0,
     enclosed_by: str = "",
     delimiter: str = ",",
     line_ending: str = "\r\n",
 ) -> str:
-    """Parse fixed-width data file and return CSV-like string.
-
-    Memory improvements:
-      - Streams input line-by-line (no full file in memory for files)
-      - Avoids storing all parsed rows as list[dict]
-      - Uses list + join instead of repeated string concatenation
+    """
+    Parse fixed-width data file and return CSV-like string.
     """
     if not header_config:
         return ""
@@ -114,6 +119,9 @@ def parse_data_file(
     output_lines.append(header_row)
 
     # Process data line-by-line
+    if isinstance(raw_data_file, Path):
+        with open(raw_data_file) as f:
+            raw_data_file = f.read(raw_data_file)  # ty: ignore[invalid-argument-type]
     for raw_line in _get_line_iterator(raw_data_file):
         if not raw_line:  # skip empty lines
             continue
@@ -131,4 +139,5 @@ def parse_data_file(
         output_lines.append(data_row)
 
     result = line_ending.join(output_lines)
-    return result  # No need for final rstrip unless you specifically want to remove a trailing newline
+    # No need for final rstrip unless you specifically want to remove a trailing newline
+    return result

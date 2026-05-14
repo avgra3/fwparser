@@ -3,11 +3,11 @@ from fwparser.fwparser import parse_data_file
 from .create_fixedwidth_data import FixedWidthDataCreation
 
 DEFINITIONS = {
-    "customer_id": [0, 5],
-    "first_name": [5, 10],
-    "last_name": [15, 10],
-    "address": [25, 50],
-    "phone_number": [75, 10],
+    "customer_id": (0, 5),
+    "first_name": (5, 10),
+    "last_name": (15, 10),
+    "address": (25, 50),
+    "phone_number": (75, 10),
 }
 GENERATED_ROWS = 1_000
 DELIMITER = "|"

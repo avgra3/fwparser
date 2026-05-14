@@ -5,19 +5,20 @@ from fwparser.fwparser import parse_data_file
 from fwparser.speedy import FastFwparser
 
 from .create_fixedwidth_data import FixedWidthDataCreation
+from .helper import check_equal
 
 LINE_ENDING = "\r\n"
 DELIMITER = "|"
-DEFINITIONS = {
-    "customer_id": [0, 5],
-    "first_name": [5, 10],
-    "last_name": [15, 10],
-    "address": [25, 50],
-    "phone_number": [75, 10],
+DEFINITIONS: dict[str, tuple[int, int]] = {
+    "customer_id": (0, 5),
+    "first_name": (5, 10),
+    "last_name": (15, 10),
+    "address": (25, 50),
+    "phone_number": (75, 10),
 }
-GENERATED_ROWS = 8
+GENERATED_ROWS = 10
 OFFSET = 0
-TRIM_WHITESPACE = False
+TRIM_WHITESPACE = True
 ENCLOSED_BY = ""
 MAX_CPUS = 4
 DATA = FixedWidthDataCreation(
@@ -52,12 +53,7 @@ def test_mulitiprocessing_correct():
         max_cpu=MAX_CPUS,
     )
     fw_fast_parse = fastFwparser.parse_data_file()
-    fw_fast_parse_set = set(fw_fast_parse.split(LINE_ENDING))
-    fw_slow_parse_set = set(fw_slow_parse.split(LINE_ENDING))
-
-    assert fw_fast_parse_set.issubset(fw_slow_parse_set)
-    assert fw_slow_parse_set.issubset(fw_fast_parse_set)
-    assert fw_fast_parse == fw_slow_parse
+    assert check_equal(fw_fast_parse, fw_slow_parse)
 
 
 def test_not_enough_cpus():

@@ -12,7 +12,7 @@ class FixedWidthDataCreation:
 
     def __init__(
         self,
-        definitions: dict[str, list[int, int]],
+        definitions: dict[str, tuple[int, int]],
         delimiter: str = ",",
         generated_rows: int = 10,
         line_terminator: str = "\r\n",
@@ -38,7 +38,7 @@ class FixedWidthDataCreation:
 
     def _customer_id(self) -> str:
         customer_id = (
-            f"{self.fake.random_number(digits=self.customer_id[1], fix_len=True)}"
+            f"""{self.fake.random_number(digits=self.customer_id[1], fix_len=True)}"""
         )
         return customer_id.rjust(self.customer_id[1])
 
@@ -55,7 +55,7 @@ class FixedWidthDataCreation:
 
     def _phone_number(self) -> str:
         phone_number = (
-            f"{self.fake.random_number(digits=self.phone_number[1], fix_len=True)}"
+            f"""{self.fake.random_number(digits=self.phone_number[1], fix_len=True)}"""
         )
         return phone_number.rjust(self.phone_number[1], " ")
 
